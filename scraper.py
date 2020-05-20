@@ -25,6 +25,7 @@ names = ['oats', 'bananas', 'almond milk', 'eggplant', 'medjoul dates', 'chickpe
 stock = [100, 5, 0, 1, 1, 1, 1, 1]
 prices = [0.6, 1.2, 1, 0.79, 0.95, 0, 0, 0]
 portion = [60, 150, 200, 200, 24, 100, 100, 40]
+meal_type = ['Breakfast', 'Breakfast', 'Breakfast', 'Liner', 'Snacks', 'Liner', 'Liner', 'Snacks']
 prep = ['microwave', 'raw', 'raw', 'grill', 'raw', 'raw', 'raw', 'raw']
 assert len(links) == len(names)
 len(names)
@@ -49,6 +50,7 @@ data = split_values(data, "Vet")
 data.index.name = 'Ingredient'
 
 data = data[['Energie', 'Vet', 'Koolhydraten', 'Eiwitten' ]]
-
+data['Portion (g)'] = portion
+data['Meal'] = meal_type
 export = data.rename(columns={'Energie': 'Calories', 'Vet': 'Total_Fat (g)', 'Koolhydraten': 'Carbohydrates (g)', 'Eiwitten': 'Protein (g)'})
 export.to_excel('ingredients - scraped.xls')

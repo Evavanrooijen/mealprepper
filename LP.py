@@ -27,6 +27,8 @@ def plan_meals(df, kcal_target, protein_target, fat_target, carb_target, deviati
 
     protein = dict(zip(food_items,df['Protein (g)']/100))
 
+    portion = dict(zip(food_items,df['Portion (g)']))
+
     prob = LpProblem("mealplanner", LpMinimize)
     food_vars = LpVariable.dicts("Amount",food_items,lowBound=0,cat='Continuous') #integer, creates food_vars+food_items key
     prob += lpSum([calories[i]*food_vars[i] for i in food_items]) #objective
@@ -46,6 +48,11 @@ def plan_meals(df, kcal_target, protein_target, fat_target, carb_target, deviati
     # Protein
     prob += lpSum([protein[f] * food_vars[f] for f in food_items]) >= protein_target/deviation, "ProteinMinimum"
     prob += lpSum([protein[f] * food_vars[f] for f in food_items]) <= protein_target*deviation, "ProteinMaximum"
+
+    # Portion size
+    for f in food_items:
+        prob += food_vars[f] <= portion[f]*deviation
+        prob += food_vars[f] >= portion[f]/deviation
 
     prob.solve()
     return prob.variables()
