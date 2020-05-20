@@ -16,16 +16,16 @@ def plan_meals(df, kcal_target, protein_target, fat_target, carb_target, deviati
     # costs = dict(zip(food_items,df['Price/Serving']))
 
     # Create a dictionary of calories for all food items
-    calories = dict(zip(food_items,df['Calories']))
-
+    calories = dict(zip(food_items,df['Calories']/100))
+    
     # Create a dictionary of total fat for all food items
-    fat = dict(zip(food_items,df['Total_Fat (g)']))
+    fat = dict(zip(food_items,df['Total_Fat (g)']/100))
 
     # Create a dictionary of carbohydrates for all food items
-    carbs = dict(zip(food_items,df['Carbohydrates (g)']))
+    carbs = dict(zip(food_items,df['Carbohydrates (g)']/100))
     # fiber = dict(zip(food_items,df['Dietary_Fiber (g)']))
 
-    protein = dict(zip(food_items,df['Protein (g)']))
+    protein = dict(zip(food_items,df['Protein (g)']/100))
 
     prob = LpProblem("mealplanner", LpMinimize)
     food_vars = LpVariable.dicts("Amount",food_items,lowBound=0,cat='Continuous') #integer, creates food_vars+food_items key

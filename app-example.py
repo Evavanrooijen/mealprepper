@@ -19,9 +19,10 @@ ingredients_df = pd.read_excel('ingredients - scraped.xls')
 #showcase = ['Ingredients','Calories', 'Total_Fat (g)', 'Carbohydrates (g)', 'Protein (g)']
 
 if st.sidebar.checkbox('Show ingredients', value=True):
+    st.write('Nutritional value per 100 gram')
     st.dataframe(ingredients_df, width=None, height=500)
 if st.button('Calculate recipe'):
     st.write('Given these ingredients and the specified macro targets, the optimal recipe is:')
-    for v in plan_meals(ingredients_df, kcal_target, protein_target, fat_target, carbs_target, deviation=5):
+    for v in plan_meals(ingredients_df, kcal_target, protein_target, fat_target, carbs_target, deviation=0):
         if v.varValue>0:
             st.write(v.name, "=", round(v.varValue), ' grams')
